@@ -33,7 +33,7 @@ class Student(Person): # viene creata una classe Student che eredita dalla class
         self.animale = animale
 
     def __str__(self): # viene riscritta la funzione __str__ della classe Persona
-        return f"Student: {self.nome} {self.cognome} - {self.casa} \n"
+        return f"{self.nome} {self.cognome} - {self.casa} \n"
 
     #def __repr__(self): # ha una funzione analoga a __str__: __str__ viene usata per avere una stampa carina, invece
     # __repr__ viene usata dal programmatore per visualizzare come è un oggetto
@@ -58,16 +58,18 @@ class Casa:
         self.studenti = studenti
 
     def addStudente(self, studente):
-        self.studenti.extend(studente) # append aggiunge un solo elemento, extend, se si passa una lista, li aggiunge
+        self.studenti.append(studente) # append aggiunge un solo elemento, extend, se si passa una lista, li aggiunge
         # tutti come singoli elementi
+        return self.studenti
 
     def __str__(self):
+
         if len(self.studenti) == 0:
             return "La casa {self.nome} è vuota."
 
         mystr =  f"\nLista degli studenti iscritti alla casa {self.nome}: \n"
         for s in self.studenti:
-            mystr += str(s) + "\n"
+            mystr = mystr + str(s)
 
         return mystr
 
@@ -82,10 +84,13 @@ Ron = Student("Ron", "Weasley", 11, "rossi", "castani", "Grifondoro",
 Severus = Teacher("Severus", "Snape", 45, "neri", "neri", "Serpeverde",
                   "Pozioni", "Sectumsempra")
 
-grifondoro = Casa("Grifondoro", [Harry])
-grifondoro.addStudente(Ron)
 
 print(Harry)
 print(Ron)
 print(Severus)
-print(grifondoro)
+
+
+Grifondoro = Casa("Grifondoro", [Harry])
+print(Grifondoro)
+Grifondoro.addStudente(Ron)
+print(Grifondoro)
