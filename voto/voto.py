@@ -1,3 +1,6 @@
+import operator
+
+
 class Voto:
 
     def __init__(self, materia, punteggio, data, lode):
@@ -23,6 +26,9 @@ class Voto:
     def __repr__(self):
         return f"{self.materia}: {self.punteggio}, {self.lode}, {self.data}"
 
+    def copy(self):
+        return Voto(self.materia, self.punteggio, self.data, self.lode)
+
 
 class Libretto():
 
@@ -39,9 +45,16 @@ class Libretto():
     def __len__(self):
         return len(self.voti)
 
+    def __eq__(self, other):
+        return (self.materia == other.materia and self.punteggio == other.punteggio and self.lode == other.lode)
+    # si potrebbe usare al posto del metodo hasVoto, ma risulta meno elegante... quindi, è preferibile l'altro meotodo
+
     def append(self, voto): # append è un nome più generico che potrebbe essere usato maggiormente rispetto, ad esempio,
         # ad addVoto --> concetto di duck typing
-        return self.voti.append(voto)
+        if (self.hasConflitto(voto) is False and self.hasVoto(voto) is False):
+            self.voti.append(voto)
+        else:
+            raise ValueError("Il voto è già presente")
 
     def calcoloMedia(self):
         """
@@ -58,7 +71,7 @@ class Libretto():
     def getVotiByPunti(self, punti, lode):
         """
         restituisce una lista di esami con il punteggio uguale a punti (e lode uguale a lode)
-        :param punti: variabile di tipo intero che indica il puntaggio
+        :param punti: variabile di tipo intero che indica il punteggio
         :param lode: variabile booleana che indica se è presente la lode
         :return: lista di voti filtrati secondo i parametri
         """
@@ -78,6 +91,103 @@ class Libretto():
             if voto.materia == nome:
                 return voto
 
+    def hasVoto(self, voto):
+        """
+        verifica se il libretto contiene già il voto: due voti vengono considerati uguali se hanno lo stesso campo
+        materia e lo stesso voto (costituito da punteggio e lode che dovranno, quindi, essere uguali)
+        :param voto: istanza dell'oggetto di tipo Voto
+        :return: bool --> true se il voto è già presente nel libretto, false altrimenti
+        """
+        for v in self.voti:
+            if (v.materia == voto.materia and v.punteggio == voto.punteggio and v.lode == voto.lode):
+                return True
+        return False
+
+    def hasConflitto(self, voto):
+        """
+        controlla che il Voto voto non presenti un conflitto con i voti già presenti nel libretto: due voti sono in
+        conflitto quando hanno lo stesso campo materia, ma diversa coppia (punteggio, lode)
+        :param voto: istanza dell'oggetto di tipo Voto
+        :return: bool --> true se il voto è in conflitto, altrimenti false
+        """
+        for v in self.voti:
+            if (v.materia == voto.materia and not (v.punteggio == voto.punteggio and v.lode == voto.lode)):
+                return True
+        return False
+
+    def copy(self):
+        """
+        crea una nuova copia del libretto
+        :return: istanza della classe Libretto
+        """
+        nuovo_libretto = Libretto(self.proprietario, [])
+        for v in self.voti:
+            nuovo_libretto.append(v.copy())
+        return nuovo_libretto
+
+    def creaMigliorato(self):
+        """
+        crea un nuovo oggetto Libretto in cui i voti sono migliorati secondo la seguente logica:
+        - se il voto è >= 18 e < 24, viene aggiunto + 1
+        - se il voto è >= 24 e < 29, viene aggiunto + 2
+        - se il voto è 29, viene aggiunto + 1
+        - se il voto è 30, rimane 30
+        :return: nuovo libretto
+        """
+        nuovo_libretto = self.copy()
+        for voto in nuovo_libretto.voti:
+            if 18 <= voto.punteggio < 24:
+                voto.punteggio = voto.punteggio + 1
+            elif 24 <= voto.punteggio < 29:
+                voto.punteggio = voto.punteggio + 2
+            elif voto.punteggio == 29:
+                voto.punteggio = 30
+        return nuovo_libretto
+
+    def sortByMateria(self):
+        #self.voti.sort(key=estraiMateria) # key deve essere uguale a una funzione esterna alle classi (che indica il
+        # criterio dell'ordinamento)
+        # al posto di usare sort, si può usare attrgetter:
+        self.voti.sort(key=operator.attrgetter("materia"))
+
+    def creaLibOrdinatoPerVoto(self):
+        """
+        crea un nuovo oggetto Libretto e lo ordina per voto
+        :return: nuovo istanza dell'oggetto Libretto
+        """
+        nuovo_libretto = self.copy()
+        nuovo_libretto.voti.sort(key=lambda v:(v.punteggio, v.lode), reverse=True)
+        return nuovo_libretto
+
+    def creaLibOrdinatoPerMateria(self):
+        """
+        crea un nuovo oggetto Libretto e lo ordina per materia
+        :return: nuova istanza dell'oggetto Libretto
+        """
+        nuovo_libretto = self.copy()
+        nuovo_libretto.sortByMateria()
+        return nuovo_libretto
+
+    def cancellaInferiori(self, punteggio):
+        """
+        agisce sul libretto corrente eliminando tutti i voti inferiori al punteggio inserito
+        :param punteggio: intero indicante il valore sotto il quale devo essere eliminati i voti presenti nel libretto
+        :return:
+        """
+        nuovo = []
+        for v in self.voti:
+            if v.punteggio >= punteggio:
+                nuovo.append(v)
+        self.voti = nuovo
+
+
+def estraiMateria(voto):
+    """
+    questo metodo restituisce il campo materia dell'oggetto voto
+    :param voto: istanza della classe Voto
+    :return: stringa rappresentante il nome della materia
+    """
+    return voto.materia
 
 def testVoto():
 

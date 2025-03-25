@@ -39,6 +39,10 @@ class Student(Person):
     def __str__(self):
         return f"Student: {self.nome} {self._cognome} - {self.casa} \n "
 
+    def copy(self):
+        return Student(self.nome, self._cognome, self.eta, self.capelli, self.occhi, self.casa, self.animale,
+                       self.incantesimo)
+
 
 class Teacher(Person):
 
