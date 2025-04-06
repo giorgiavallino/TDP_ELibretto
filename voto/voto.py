@@ -1,5 +1,6 @@
 import operator
 
+# Questo file rappresenta il modello
 
 class Voto:
 
