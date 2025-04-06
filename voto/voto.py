@@ -31,7 +31,7 @@ class Voto:
         return Voto(self.materia, self.punteggio, self.data, self.lode)
 
 
-class Libretto():
+class Libretto:
 
     def __init__(self, proprietario, voti = []):
         self.proprietario = proprietario
