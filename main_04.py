@@ -1,6 +1,6 @@
 import flet as ft
-from controller import Controller
-from view import View
+from UI.controller import Controller
+from UI.view import View
 
 # Viene aggiunto il codice per creare l'interfaccia grafica (confrontare con controller e view)
 

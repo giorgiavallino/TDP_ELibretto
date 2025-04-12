@@ -1,4 +1,5 @@
-from voto.voto import Voto, Libretto
+from voto.modello import Libretto
+from voto.voto import Voto
 
 v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
 v2 = Voto("Pozioni", 30, "2022-02-17", True)
@@ -10,4 +11,4 @@ libretto.append(v3)
 print(libretto)
 
 # In questo file vengono eseguiti dei test riferiti al file voto per verificare la correttezza del codice scritto in
-# tale file: questo può essere fatto anche nel file voto! (vedere file voto.py)
+# tale file: questo può essere fatto anche nel file voto! (vedere file modello.py)

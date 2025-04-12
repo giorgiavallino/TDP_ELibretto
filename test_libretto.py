@@ -1,5 +1,5 @@
 from scuola import Student
-from voto.voto import Libretto, Voto
+from voto.modello import Libretto, Voto
 
 Harry = Student(nome="Harry", cognome="Potter", eta=11, capelli="castani", occhi="azzurri", casa="Grifondoro", animale="civetta", incantesimo="Expecto Patronum")
 

@@ -1,6 +1,6 @@
-from view import View
+from UI.view import View
 from scuola import Student
-from voto.voto import Libretto
+from voto.modello import Libretto
 from voto.voto import Voto
 import flet as ft
 
@@ -11,15 +11,15 @@ class Controller:
         self._student = Student(nome="Harry", cognome="Potter", eta=11, capelli="castani", occhi="azzurri",
                                 casa="Grifondoro", animale="civetta", incantesimo="Expecto Patronum")
         self._model = Libretto(self._student)
-        self._fillLibretto()
+        #self._fillLibretto()
 
-    def _fillLibretto(self):
-        v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
-        v2 = Voto("Pozioni", 30, "2022-02-17", True)
-        v3 = Voto("Difesa contro le arti oscure", 27, "2022-04-13", False)
-        self._model.append(v1)
-        self._model.append(v2)
-        self._model.append(v3)
+    #def _fillLibretto(self):
+        #v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
+        #v2 = Voto("Pozioni", 30, "2022-02-17", True)
+        #v3 = Voto("Difesa contro le arti oscure", 27, "2022-04-13", False)
+        #self._model.append(v1)
+        #self._model.append(v2)
+        #self._model.append(v3)
 
     def getStudent(self):
         """
