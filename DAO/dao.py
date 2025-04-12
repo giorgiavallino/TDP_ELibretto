@@ -1,5 +1,5 @@
-import mysql.connector
 from voto.voto import Voto
+from DAO.dbConnect import DBConnect
 
 class LibrettoDao:
 
@@ -7,10 +7,7 @@ class LibrettoDao:
         pass
 
     def getAllVoti(self):
-        cnx = mysql.connector.connect(user="root",
-                                      password="gvpoli",
-                                      host="127.0.0.1",
-                                      database="libretto")
+        cnx = DBConnect.getConnection()
         cursor = cnx.cursor(dictionary=True)
         query = """SELECT * FROM voti"""
         cursor.execute(query)
@@ -24,10 +21,7 @@ class LibrettoDao:
         return result
 
     def addVoto(self, voto:Voto):
-        cnx = mysql.connector.connect(user="root",
-                                      password="gvpoli",
-                                      host="127.0.0.1",
-                                      database="libretto")
+        cnx = DBConnect.getConnection()
         cursor = cnx.cursor()
         query = """INSERT INTO voti (materia, punteggio, data, lode) VALUES (%s, %s, %s, %s)"""
         cursor.execute(query, (voto.materia, voto.punteggio, voto.data, str(voto.lode)))
@@ -36,10 +30,7 @@ class LibrettoDao:
         return
 
     def hasVoto(self, voto: Voto):
-        cnx = mysql.connector.connect(user="root",
-                                      password="gvpoli",
-                                      host="127.0.0.1",
-                                      database="libretto")
+        cnx = DBConnect.getConnection()
         cursor = cnx.cursor()
         query = """SELECT *
                 FROM voti v
@@ -47,6 +38,7 @@ class LibrettoDao:
         cursor.execute(query, (voto.materia,))
         result = cursor.fetchall()
         return len(result) > 0
+
 
 if __name__ == "__main__":
     dao = LibrettoDao()
