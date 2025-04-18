@@ -9,7 +9,6 @@ class Libretto:
     def __init__(self, proprietario, voti = []):
         self.proprietario = proprietario
         self.voti = voti
-        self.dao = LibrettoDao()
         self._fillLibretto()
 
     def __str__(self):
@@ -29,8 +28,8 @@ class Libretto:
         # ad addVoto --> concetto di duck typing
         if (self.hasConflitto(voto) is False and self.hasVoto(voto) is False):
             self.voti.append(voto)
-            if not self.dao.hasVoto(voto):
-                self.dao.addVoto(voto)
+            if not LibrettoDao.hasVoto(voto):
+                LibrettoDao.addVoto(voto)
         else:
             raise ValueError("Il voto è già presente")
 
@@ -159,7 +158,7 @@ class Libretto:
         self.voti = nuovo
 
     def _fillLibretto(self):
-        esami = self.dao.getAllVoti()
+        esami = LibrettoDao.getAllVoti()
         for esame in esami:
             self.append(esame)
 

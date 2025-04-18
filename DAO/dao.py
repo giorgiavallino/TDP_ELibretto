@@ -6,8 +6,9 @@ class LibrettoDao:
     def __init__(self):
         pass
 
-    def getAllVoti(self):
-        cnx = DBConnect.getConnection()
+    @staticmethod
+    def getAllVoti():
+        cnx = DBConnect.getConnectionPool()
         cursor = cnx.cursor(dictionary=True)
         query = """SELECT * FROM voti"""
         cursor.execute(query)
@@ -20,8 +21,9 @@ class LibrettoDao:
         cnx.close()
         return result
 
-    def addVoto(self, voto:Voto):
-        cnx = DBConnect.getConnection()
+    @staticmethod
+    def addVoto(voto:Voto):
+        cnx = DBConnect.getConnectionPool()
         cursor = cnx.cursor()
         query = """INSERT INTO voti (materia, punteggio, data, lode) VALUES (%s, %s, %s, %s)"""
         cursor.execute(query, (voto.materia, voto.punteggio, voto.data, str(voto.lode)))
@@ -29,14 +31,16 @@ class LibrettoDao:
         cnx.close()
         return
 
-    def hasVoto(self, voto: Voto):
-        cnx = DBConnect.getConnection()
+    @staticmethod
+    def hasVoto(voto: Voto):
+        cnx = DBConnect.getConnectionPool()
         cursor = cnx.cursor()
         query = """SELECT *
                 FROM voti v
                 WHERE v.materia = %s"""
         cursor.execute(query, (voto.materia,))
         result = cursor.fetchall()
+        cnx.close()
         return len(result) > 0
 
 
