@@ -7,8 +7,8 @@ class DBConnect:
 
     _myPool = None
 
-    @classmethod # è un metodo di classe --> significa che questa classe è unica --> centralizza la creazione
-    # di connessioni
+    @classmethod # è un metodo di classe che ha accesso alla classe --> significa che questa classe è unica -->
+    # centralizza la creazione di connessioni
     def getConnection(cls):
         try:
             cnx = mysql.connector.connect(user="root",

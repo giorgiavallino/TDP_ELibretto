@@ -3,10 +3,11 @@ from DAO.dbConnect import DBConnect
 
 class LibrettoDao:
 
-    def __init__(self):
+    def __init__(self): # metodo standard che ha accesso a self
         pass
 
-    @staticmethod
+    @staticmethod # --> non accede ai parametri della classe, ma semplicemente hai parametri che vengono passati al suo
+    # interno
     def getAllVoti():
         cnx = DBConnect.getConnectionPool()
         cursor = cnx.cursor(dictionary=True)
