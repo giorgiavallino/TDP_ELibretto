@@ -14,7 +14,7 @@ class DBConnect:
             cnx = mysql.connector.connect(user="root",
                                       password="gvpoli",
                                       host="127.0.0.1",
-                                      database="libretto")
+                                      database="libretto") # si può inizializzare un file contenente queste informazioni
             return cnx
         except mysql.connector.Error as err:
             print("Non è stata creata nessuna connessione:")
